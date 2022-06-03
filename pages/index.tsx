@@ -1,86 +1,171 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from "next";
+import Head from "next/head";
+import * as THREE from "three";
+import { useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { MeshWobbleMaterial, OrbitControls } from "@react-three/drei";
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Depr.ai</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="rounded-md bg-gray-100 p-3 font-mono text-lg">
-            pages/index.tsx
-          </code>
-        </p>
-
-        <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
+      <div className="layout">
+        <div className="flex items-center gap-6 text-sm text-blue-600 text-bold">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="font-bold text-blue-600 w-7 h-7"
           >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and its API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+            <path
+              d="M4.60913 0.0634287C4.39082 0.0088505 4.16575 0.12393 4.08218 0.332867L3.1538 2.6538L0.832866 3.58218C0.702884 3.63417 0.604504 3.7437 0.566705 3.87849C0.528906 4.01329 0.555994 4.158 0.639992 4.26999L2.01148 6.09864L1.06343 9.89085C1.00944 10.1068 1.12145 10.3298 1.32691 10.4154L4.20115 11.613L5.62557 13.7496C5.73412 13.9124 5.93545 13.9864 6.12362 13.9327L9.62362 12.9327C9.62988 12.9309 9.63611 12.929 9.64229 12.9269L12.6423 11.9269C12.7923 11.8769 12.905 11.7519 12.9393 11.5976L13.9393 7.09761C13.9776 6.92506 13.9114 6.74605 13.77 6.63999L11.95 5.27499V2.99999C11.95 2.82955 11.8537 2.67373 11.7012 2.5975L8.70124 1.0975C8.67187 1.08282 8.64098 1.07139 8.60913 1.06343L4.60913 0.0634287ZM11.4323 6.01173L12.7748 7.01858L10.2119 9.15429C10.1476 9.20786 10.0995 9.2783 10.0731 9.35769L9.25382 11.8155L7.73849 10.8684C7.52774 10.7367 7.25011 10.8007 7.11839 11.0115C6.98667 11.2222 7.05074 11.4999 7.26149 11.6316L8.40341 12.3453L6.19221 12.9771L4.87441 11.0004C4.82513 10.9265 4.75508 10.8688 4.67307 10.8346L2.03046 9.73352L2.85134 6.44999H4.99999C5.24852 6.44999 5.44999 6.24852 5.44999 5.99999C5.44999 5.75146 5.24852 5.54999 4.99999 5.54999H2.72499L1.7123 4.19974L3.51407 3.47903L6.35769 4.4269C6.53655 4.48652 6.73361 4.42832 6.85138 4.28111L8.62413 2.06518L11.05 3.27811V5.19533L8.83287 6.08218C8.70996 6.13134 8.61494 6.23212 8.57308 6.35769L8.07308 7.85769C7.99449 8.09346 8.12191 8.34831 8.35769 8.4269C8.59346 8.50549 8.84831 8.37807 8.9269 8.14229L9.3609 6.84029L11.4323 6.01173ZM7.71052 1.76648L6.34462 3.47386L4.09505 2.724L4.77192 1.03183L7.71052 1.76648ZM10.2115 11.7885L12.116 11.1537L12.7745 8.19034L10.8864 9.76374L10.2115 11.7885Z"
+              fill="currentColor"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          Depr.ai!
+        </div>
+      </div>
+      <main className="layout">
+        <div className="grid w-full grid-cols-3 gap-4 min-h-[40vh]">
+          <div className="col-span-2">
+            <h1 className="mb-3 text-6xl font-bold">
+              Welcome to <span className="text-blue-600">Depr.ai!</span>
+            </h1>
+            <h3>
+              The AI platform for detecting and reducing your depression rate.
+            </h3>
+            <h4 className="mt-6 text-justify">
+              <span className="font-bold text-blue-600">Depression</span> is a
+              common and serious medical illness that negatively affects how you
+              feel, the way you think and how you act. Depression causes
+              feelings of sadness and/or a loss of interest in activities you
+              once enjoyed. It can lead to a variety of emotional and physical
+              problems and can decrease your ability to function at work and at
+              home.{" "}
+              <a
+                href="https://psychiatry.org/patients-families/depression/what-is-depression"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 underline hover:font-bold"
+              >
+                (Read More)
+              </a>
+            </h4>
+            <div className="mt-5">
+              <a
+                href="#_"
+                className="box-border relative z-30 inline-flex items-center justify-center w-auto px-10 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-blue-600 rounded-md cursor-pointer active:scale-95 group ring-offset-2 ring-1 ring-blue-300 ring-offset-blue-200 hover:ring-offset-blue-500 ease focus:outline-none"
+              >
+                <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+                <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+                <span className="relative z-20 flex items-center text-base">
+                  Take a test
+                </span>
+              </a>
+            </div>
+          </div>
+          <div className="w-full">
+            <Canvas>
+              <ambientLight intensity={0.5} />
+              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+              <pointLight position={[-10, -10, -10]} />
+              <SpinningMesh
+                position={[0, 1, 0]}
+                color="#2563eb"
+                args={[3, 2, 1]}
+                speed={1}
+              />
+              <OrbitControls />
+            </Canvas>
+          </div>
+        </div>
+        <div className="flex justify-start w-full mt-10 mb-8 md:mt-0">
+          <h1 className="text-6xl">
+            Our <span className="text-blue-600">Solutions</span>
+          </h1>
+        </div>
+        <div className="grid w-full gap-5 md:grid-cols-3">
+          <div className="p-4 border-2 border-blue-600 rounded">
+            <div className="flex flex-col items-center">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-10 h-10"
+              >
+                <path
+                  d="M9.42503 3.44136C10.0561 3.23654 10.7837 3.2402 11.3792 3.54623C12.7532 4.25224 13.3477 6.07191 12.7946 8C12.5465 8.8649 12.1102 9.70472 11.1861 10.5524C10.262 11.4 8.98034 11.9 8.38571 11.9C8.17269 11.9 8 11.7321 8 11.525C8 11.3179 8.17644 11.15 8.38571 11.15C9.06497 11.15 9.67189 10.7804 10.3906 10.236C10.9406 9.8193 11.3701 9.28633 11.608 8.82191C12.0628 7.93367 12.0782 6.68174 11.3433 6.34901C10.9904 6.73455 10.5295 6.95946 9.97725 6.95946C8.7773 6.95946 8.0701 5.99412 8.10051 5.12009C8.12957 4.28474 8.66032 3.68954 9.42503 3.44136ZM3.42503 3.44136C4.05614 3.23654 4.78366 3.2402 5.37923 3.54623C6.7532 4.25224 7.34766 6.07191 6.79462 8C6.54654 8.8649 6.11019 9.70472 5.1861 10.5524C4.26201 11.4 2.98034 11.9 2.38571 11.9C2.17269 11.9 2 11.7321 2 11.525C2 11.3179 2.17644 11.15 2.38571 11.15C3.06497 11.15 3.67189 10.7804 4.39058 10.236C4.94065 9.8193 5.37014 9.28633 5.60797 8.82191C6.06282 7.93367 6.07821 6.68174 5.3433 6.34901C4.99037 6.73455 4.52948 6.95946 3.97725 6.95946C2.7773 6.95946 2.0701 5.99412 2.10051 5.12009C2.12957 4.28474 2.66032 3.68954 3.42503 3.44136Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <h2 className="text-blue-600">Quiz</h2>
+            </div>
+          </div>
         </div>
       </main>
 
-      <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
+      <footer className="flex items-center justify-center w-full h-24 mt-20 border-t">
+        <div className="flex items-center justify-center gap-2">
+          Powered by Team{" "}
+          <h4 className="font-bold text-blue-600">GPT3 with StyleGAN3</h4>
+        </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
+
+const SpinningMesh = ({ position, color, speed, args }: any) => {
+  const mesh = useRef<THREE.Mesh>(null!);
+  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
+
+  const [expand, setExpand] = useState(false);
+  return (
+    <mesh
+      position={position}
+      ref={mesh}
+      onClick={() => setExpand(!expand)}
+      castShadow
+    >
+      <boxBufferGeometry attach="geometry" args={args} />
+      <MeshWobbleMaterial
+        color={color}
+        speed={speed}
+        attach="material"
+        factor={0.6}
+      />
+    </mesh>
+  );
+};
+
+// function Box(props: JSX.IntrinsicElements["mesh"]) {
+//   const mesh = useRef<THREE.Mesh>(null!);
+//   const [hovered, setHover] = useState(false);
+//   const [active, setActive] = useState(false);
+//   useFrame((state, delta) => (mesh.current.rotation.x += 0.01));
+//   return (
+//     <mesh
+//       {...props}
+//       ref={mesh}
+//       scale={active ? 1.5 : 1}
+//       onClick={(event) => setActive(!active)}
+//       onPointerOver={(event) => setHover(true)}
+//       onPointerOut={(event) => setHover(false)}
+//     >
+//       <boxGeometry args={[1, 1, 1]} />
+//       <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+//     </mesh>
+//   );
+// }

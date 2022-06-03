@@ -6,9 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@react-three/drei": "^9.11.3",
+    "@react-three/fiber": "^8.0.22",
+    "@types/three": "^0.141.0",
+    "classnames": "^2.3.1",
+    "framer-motion": "^6.3.7",
     "next": "latest",
+    "next-themes": "^0.2.0",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "react-spring": "^9.4.5",
+    "three": "^0.141.0"
   },
   "devDependencies": {
     "@types/node": "17.0.35",
