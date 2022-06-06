@@ -5,34 +5,42 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshWobbleMaterial, OrbitControls } from "@react-three/drei";
 import Image from "next/image";
-// import { modelDownloadInProgress } from "lib/inference";
-// import * as ort from "onnxruntime-web";
-// import { loadTokenizer } from "lib/bert_tokenizer";
 import { load, inference } from "lib/inference";
 import { BertTokenizer } from "lib/bert_tokenizer";
 
 const Home: NextPage = () => {
   const [tokenizer, setTokenizer] = useState<BertTokenizer>();
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<any>();
   const [emotion, setEmotion] = useState<any>();
   const [emotionTime, setEmotionTime] = useState<any>();
+  const [depression, setDepression] = useState<any>();
+  const [depressionTime, setDepressionTime] = useState<any>();
 
   const nlp = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value == "") {
       setEmotion([]);
       setEmotionTime("");
+      setDepression([]);
+      setDepressionTime("");
     } else {
-      const result = await inference(tokenizer, session, e.target.value);
-      setEmotionTime(result[0]);
+      const { emotion, depression }: any = await inference(
+        tokenizer,
+        session[0],
+        session[1],
+        e.target.value
+      );
+      setEmotionTime(emotion[0]);
+      setDepressionTime(depression[0]);
       // @ts-ignore
-      setEmotion([result[1][1], result[1][2]]);
+      setEmotion([emotion[1][1], emotion[1][2]]);
+      setDepression([depression[1][1], depression[1][2]]);
     }
   };
 
   const download = async () => {
-    const { tokenizer, session } = await load();
+    const { tokenizer, emotion, depression } = await load();
     setTokenizer(tokenizer);
-    setSession(session);
+    setSession([emotion, depression]);
   };
 
   useEffect(() => {
@@ -91,7 +99,7 @@ const Home: NextPage = () => {
                 (Read More)
               </a>
             </h4>
-            <div>
+            <div className="mb-20">
               <div className="flex items-center gap-5 mt-5">
                 <div className="box-border relative z-30 inline-flex items-center justify-center w-auto overflow-hidden font-bold text-white transition-all duration-300 bg-blue-600 rounded-md cursor-pointer active:scale-95 group ring-offset-2 ring-1 ring-blue-300 ring-offset-blue-200 hover:ring-offset-blue-500 ease focus:outline-none">
                   <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
@@ -130,6 +138,22 @@ const Home: NextPage = () => {
                     </span>
                   ))}
                   <span className="text-sm text-gray-300">{`- ${emotionTime} ms inference time`}</span>
+                </div>
+              )}
+              {depression && depressionTime && (
+                <div className="flex items-end gap-3 mt-3">
+                  {depression?.map((d: string, i: number) => (
+                    <span
+                      key={i}
+                      style={{
+                        // @ts-ignore
+                        opacity: d[1] / 100 + 0.5,
+                      }}
+                    >
+                      {d[0]} ({d[1]})
+                    </span>
+                  ))}
+                  <span className="text-sm text-gray-300">{`- ${depressionTime} ms inference time`}</span>
                 </div>
               )}
             </div>
