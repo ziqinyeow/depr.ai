@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [emotionTime, setEmotionTime] = useState<any>();
   const [depression, setDepression] = useState<any>();
   const [depressionTime, setDepressionTime] = useState<any>();
-  console.log(tokenizer, session);
+  // console.log(tokenizer, session);
 
   const nlp = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value == "") {
