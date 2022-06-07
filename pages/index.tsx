@@ -15,6 +15,7 @@ const Home: NextPage = () => {
   const [emotionTime, setEmotionTime] = useState<any>();
   const [depression, setDepression] = useState<any>();
   const [depressionTime, setDepressionTime] = useState<any>();
+  console.log(tokenizer, session);
 
   const nlp = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value == "") {
@@ -105,7 +106,7 @@ const Home: NextPage = () => {
                   <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
                   <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
                   <input
-                    className="relative z-20 flex items-center px-5 py-3 text-base text-blue-600 outline-none disabled:bg-white"
+                    className="relative z-20 flex items-center px-5 py-3 text-base text-blue-600 bg-white outline-none disabled:cursor-not-allowed"
                     type="text"
                     placeholder="Your thoughts today?"
                     disabled={!tokenizer}
