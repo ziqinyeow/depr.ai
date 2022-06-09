@@ -8,6 +8,7 @@
   "dependencies": {
     "@react-three/drei": "^9.11.3",
     "@react-three/fiber": "^8.0.22",
+    "@tensorflow/tfjs": "^3.18.0",
     "@types/three": "^0.141.0",
     "classnames": "^2.3.1",
     "framer-motion": "^6.3.7",

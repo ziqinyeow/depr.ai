@@ -5,6 +5,7 @@ import data from "data/depression_test";
 import advice from "data/generated_text";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { loadModel, predict } from "lib/tf";
 
 // const Question: React.FC = () => {
 //   return <div></div>;
@@ -18,11 +19,14 @@ const Home: NextPage = ({
   const [loading, setLoading] = useState(true);
   const [counter, setCounter] = useState(0);
   const [response, setResponse] = useState({});
+  const [result, setResult] = useState("");
+  const [pred, setPred] = useState<any>();
   const [globalScore, setGlobalScore] = useState(0);
-  //   console.log(response);
-  //   console.log(advice);
 
   useEffect(() => {
+    (async () => {
+      await loadModel("/model/quiz_1/model.json");
+    })();
     const n = Number(window.sessionStorage.getItem("dt"));
     const s = Number(window.localStorage.getItem("s"));
     if (!s) {
@@ -200,6 +204,16 @@ const Home: NextPage = ({
                         );
                         if (counter === 10) {
                           setCounter(11);
+                          (async () => {
+                            const result = await predict([
+                              Object.keys(response).map(function (key) {
+                                // @ts-ignore
+                                return Number(response[key]);
+                              }),
+                            ]);
+                            setResult(result?.class);
+                            setPred(result?.pred);
+                          })();
                           window.sessionStorage.setItem("dt", String(11));
                           let previous_score = window.localStorage.getItem("s");
                           const score = Object.keys(response).reduce(function (
@@ -251,34 +265,61 @@ const Home: NextPage = ({
             <div className="w-full">
               <div className="flex items-center justify-center w-full">
                 <div className="md:w-[50vw] xl:w-[30vw] 2xl:w-[20vw] text-justify space-y-6">
-                  <h2 className="">Test Result</h2>
+                  <div>
+                    <h2 className="">Test Result</h2>
+                  </div>
                   <div className="grid grid-cols-6 border-2 border-blue-600 rounded-md">
                     <div className="col-span-5 p-4">
                       <h5 className="text-xs">You suffered from: </h5>
-                      <h4 className="font-bold">Mild Depression</h4>
+                      <h4 className="font-bold">
+                        {result !== "" ? result : "--"}
+                      </h4>
                     </div>
-                    <div className="bg-blue-600 opacity-20"></div>
+                    <div
+                      className="flex items-center justify-center font-bold text-white bg-blue-600"
+                      style={{
+                        opacity: pred
+                          ? pred[0] === 0
+                            ? 0.2
+                            : pred[0] / 4
+                          : 0.2,
+                      }}
+                    >
+                      {Math.round(globalScore)}
+                    </div>
                   </div>
                   <h4 className="pt-5 font-bold">Advices</h4>
                   <h5>
-                    {advice[Math.floor(Math.random() * 500)]
+                    {advice[Math.floor(Math.random() * 50)]
                       ?.split(".")
                       .slice(0, -1)
                       .join(".")}
-                    .
+                    ...
                   </h5>
                   <h5>
-                    {advice[Math.floor(Math.random() * 1000) + 500]
+                    {advice[Math.floor(Math.random() * 100) + 50]
                       ?.split(".")
                       .slice(0, -1)
                       .join(".")}
-                    .
+                    ...
+                  </h5>
+                  <h5 className="text-xs text-gray-600">
+                    Result and advices generated from AI models.{" "}
+                    <a
+                      className="font-bold text-blue-600"
+                      href="http://"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Report Issue
+                    </a>
                   </h5>
                   <div className="grid w-full grid-cols-5 gap-5 pt-5">
                     <button
                       onClick={() => {
                         window.sessionStorage.setItem("dt", String(0));
                         window.sessionStorage.setItem("dtr", "");
+                        // setCounter(0);
                         router.reload();
                       }}
                       className="box-border relative z-30 inline-flex items-center justify-center w-full col-span-3 px-10 py-4 overflow-hidden font-bold text-white transition-all duration-300 bg-blue-600 rounded-md cursor-pointer active:scale-95 group ring-offset-2 ring-1 ring-blue-300 ring-offset-blue-200 hover:ring-offset-blue-500 ease focus:outline-none"
@@ -328,7 +369,7 @@ export default Home;
 export const getStaticProps: GetStaticProps = () => {
   return {
     props: {
-      advice,
+      advice: advice.slice(100),
     },
   };
 };
