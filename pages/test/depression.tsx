@@ -221,6 +221,7 @@ const Home: NextPage = ({
                               ],
                               0
                             );
+                            // @ts-ignore
                             setResult(result?.class);
                             setPred(result?.pred);
                           })();

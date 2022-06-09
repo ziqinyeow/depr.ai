@@ -239,6 +239,7 @@ const Home: NextPage = ({
                               ],
                               1
                             );
+                            // @ts-ignore
                             setResult(result?.class);
                             setPred(result?.pred);
                           })();
@@ -311,11 +312,7 @@ const Home: NextPage = ({
                     <div
                       className="flex items-center justify-center font-bold text-white bg-blue-600"
                       style={{
-                        opacity: pred
-                          ? pred[0] === 0
-                            ? 0.2
-                            : pred[0] / 4
-                          : 0.2,
+                        opacity: pred === 1 ? 0.9 : 0.25,
                       }}
                     >
                       {/* {Math.round(personalityScore)} */}
