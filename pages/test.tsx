@@ -17,11 +17,15 @@ const Home: NextPage = ({
   const [globalScore, setGlobalScore] = useState(0);
 
   useEffect(() => {
-    const s = Number(window.localStorage.getItem("s"));
-    if (!s) {
-      window.localStorage.setItem("s", "0");
+    const ds = Number(window.localStorage.getItem("ds"));
+    const ps = Number(window.localStorage.getItem("ps"));
+    if (!ds) {
+      window.localStorage.setItem("ds", "0");
     }
-    setGlobalScore(Number(s));
+    if (!ps) {
+      window.localStorage.setItem("ps", "0");
+    }
+    setGlobalScore(Number(ds) + Number(ps));
   }, []);
 
   return (
