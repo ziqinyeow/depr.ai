@@ -17,8 +17,10 @@ const Home: NextPage = ({
   const [response, setResponse] = useState({});
   const [result, setResult] = useState("");
   const [pred, setPred] = useState<any>();
-  const [personalityScore, setPersonalityScore] = useState(0);
+  //   const [personalityScore, setPersonalityScore] = useState(0);
   const [globalScore, setGlobalScore] = useState(0);
+
+  //   console.log(result);
 
   useEffect(() => {
     (async () => {
@@ -33,8 +35,8 @@ const Home: NextPage = ({
     if (!ps) {
       window.localStorage.setItem("ps", "0");
     }
-    setPersonalityScore(Number(ps));
-    setGlobalScore(Number(ds) + Number(ps));
+    // setPersonalityScore(Number(ps));
+    setGlobalScore(Number(ds));
     let r = window.sessionStorage.getItem("ptr") || {};
     if (typeof r === "string") {
       r = JSON.parse(r);
@@ -228,12 +230,15 @@ const Home: NextPage = ({
                         if (counter === 30) {
                           setCounter(31);
                           (async () => {
-                            const result = await predict([
-                              Object.keys(response).map(function (key) {
-                                // @ts-ignore
-                                return Number(response[key]);
-                              }),
-                            ]);
+                            const result = await predict(
+                              [
+                                Object.keys(response).map(function (key) {
+                                  // @ts-ignore
+                                  return Number(response[key]);
+                                }),
+                              ],
+                              1
+                            );
                             setResult(result?.class);
                             setPred(result?.pred);
                           })();
@@ -251,7 +256,7 @@ const Home: NextPage = ({
                           if (previous_score) {
                             // @ts-ignore
                             previous_score = 0;
-                            setPersonalityScore((score / 30) * 100);
+                            // setPersonalityScore((score / 30) * 100);
                             window.localStorage.setItem(
                               "ps",
                               String((score / 30) * 100)
@@ -259,7 +264,7 @@ const Home: NextPage = ({
                           } else {
                             const ave =
                               ((Number(previous_score) + score) / 2 / 30) * 100;
-                            setPersonalityScore(ave);
+                            // setPersonalityScore(ave);
                             window.localStorage.setItem("ps", String(ave));
                           }
                         } else {
@@ -313,7 +318,7 @@ const Home: NextPage = ({
                           : 0.2,
                       }}
                     >
-                      {Math.round(personalityScore)}
+                      {/* {Math.round(personalityScore)} */}
                     </div>
                   </div>
                   <h4 className="pt-5 font-bold">Advices</h4>

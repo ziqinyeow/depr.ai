@@ -38,7 +38,7 @@ const Home: NextPage = ({
       window.localStorage.setItem("ps", "0");
     }
     setDepressionScore(Number(ds));
-    setGlobalScore(Number(ds) + Number(ps));
+    // setGlobalScore(Number(ds) + Number(ps));
     let r = window.sessionStorage.getItem("dtr") || {};
     if (typeof r === "string") {
       r = JSON.parse(r);
@@ -100,7 +100,7 @@ const Home: NextPage = ({
           </Link>
           <div className="flex items-center justify-center gap-2 text-sm text-blue-600 text-bold">
             <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-            <div className="">{Math.round(globalScore)}</div>
+            <div className="">{Math.round(depressionScore)}</div>
           </div>
         </div>
       </div>
@@ -212,12 +212,15 @@ const Home: NextPage = ({
                         if (counter === 10) {
                           setCounter(11);
                           (async () => {
-                            const result = await predict([
-                              Object.keys(response).map(function (key) {
-                                // @ts-ignore
-                                return Number(response[key]);
-                              }),
-                            ]);
+                            const result = await predict(
+                              [
+                                Object.keys(response).map(function (key) {
+                                  // @ts-ignore
+                                  return Number(response[key]);
+                                }),
+                              ],
+                              0
+                            );
                             setResult(result?.class);
                             setPred(result?.pred);
                           })();
@@ -297,7 +300,7 @@ const Home: NextPage = ({
                           : 0.2,
                       }}
                     >
-                      {Math.round(globalScore)}
+                      {Math.round(depressionScore)}
                     </div>
                   </div>
                   <h4 className="pt-5 font-bold">Advices</h4>

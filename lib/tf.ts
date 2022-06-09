@@ -3,11 +3,14 @@ import * as tf from "@tensorflow/tfjs";
 let model: any;
 
 const class_names = [
-  "Normal",
-  "Mild Depression",
-  "Moderate Depression",
-  "Severe Depression",
-  "Extremely Severe Depression",
+  [
+    "Normal",
+    "Mild Depression",
+    "Moderate Depression",
+    "Severe Depression",
+    "Extremely Severe Depression",
+  ],
+  ["Non-depressed", "Depressed"],
 ];
 
 export const loadModel = async (url: string) => {
@@ -20,7 +23,7 @@ export const loadModel = async (url: string) => {
   return model;
 };
 
-export const predict = async (input: any) => {
+export const predict = async (input: any, type: number) => {
   try {
     let tensor = tf.tensor(input);
 
@@ -33,7 +36,7 @@ export const predict = async (input: any) => {
     //   class_names[pred];
     // console.log(class_names[pred]);
     // @ts-ignore
-    return { class: class_names[pred], pred };
+    return { class: class_names[type][pred], pred };
   } catch (error: any) {
     console.log(error.message);
   }

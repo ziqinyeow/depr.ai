@@ -86,7 +86,7 @@ const Home: NextPage = ({
                   <h4 className="font-bold">Personality Test</h4>
                   <h5 className="">
                     Take a test with 30 questions regarding your personal
-                    lifestyle and living behaviour
+                    lifestyle and living behaviour.
                   </h5>
                 </div>
               </Link>
