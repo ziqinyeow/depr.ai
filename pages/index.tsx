@@ -48,8 +48,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const ds = window.localStorage.getItem("ds");
-    const ps = window.localStorage.getItem("ps");
-    setGlobalScore(Number(ds) + Number(ps));
+    // const ps = window.localStorage.getItem("ps");
+    setGlobalScore(Number(ds));
     download();
   }, []);
 
