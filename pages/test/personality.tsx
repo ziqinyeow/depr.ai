@@ -300,11 +300,7 @@ const Home: NextPage = ({
                   </div>
                   <div className="grid grid-cols-6 border-2 border-blue-600 rounded-md">
                     <div className="col-span-5 p-4">
-                      <h5 className="text-xs">
-                        {result === "Normal"
-                          ? "You are: "
-                          : "You suffered from: "}
-                      </h5>
+                      <h5 className="text-xs">You are more likely to:</h5>
                       <h4 className="font-bold">
                         {result !== "" ? result : "--"}
                       </h4>

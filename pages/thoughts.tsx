@@ -1,11 +1,12 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import data from "data/depression_test";
-import advice from "data/generated_text";
+import { ChangeEvent, useEffect, useState } from "react";
+// import data from "data/depression_test";
+// import advice from "data/generated_text";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { loadModel, predict } from "lib/tf";
+import { BertTokenizer } from "lib/bert_tokenizer";
+import { inference, load } from "lib/inference";
 
 // const Question: React.FC = () => {
 //   return <div></div>;
@@ -13,14 +14,45 @@ import { loadModel, predict } from "lib/tf";
 
 const Home: NextPage = () => {
   const [globalScore, setGlobalScore] = useState(0);
+  const [tokenizer, setTokenizer] = useState<BertTokenizer>();
+  const [session, setSession] = useState<any>();
+  const [emotion, setEmotion] = useState<any>();
+  const [emotionTime, setEmotionTime] = useState<any>();
+  const [depression, setDepression] = useState<any>();
+  const [depressionTime, setDepressionTime] = useState<any>();
+
+  const nlp = async (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value == "") {
+      setEmotion([]);
+      setEmotionTime("");
+      setDepression([]);
+      setDepressionTime("");
+    } else {
+      const { emotion, depression }: any = await inference(
+        tokenizer,
+        session[0],
+        session[1],
+        e.target.value
+      );
+      setEmotionTime(emotion[0]);
+      setDepressionTime(depression[0]);
+      // @ts-ignore
+      setEmotion([emotion[1][1], emotion[1][2]]);
+      setDepression([depression[1][1], depression[1][2]]);
+    }
+  };
+
+  const download = async () => {
+    const { tokenizer, emotion, depression } = await load();
+    setTokenizer(tokenizer);
+    setSession([emotion, depression]);
+  };
 
   useEffect(() => {
-    const ds = Number(window.localStorage.getItem("ds"));
-    // const ps = Number(window.localStorage.getItem("ps"));
-    if (!ds) {
-      window.localStorage.setItem("ds", "0");
-    }
+    const ds = window.localStorage.getItem("ds");
+    // const ps = window.localStorage.getItem("ps");
     setGlobalScore(Number(ds));
+    download();
   }, []);
 
   return (
@@ -60,31 +92,55 @@ const Home: NextPage = () => {
       <main className="">
         <div className="layout">
           <div className="flex items-center justify-center w-full">
-            <div className="md:w-[50vw] xl:w-[30vw] 2xl:w-[20vw] text-justify space-y-6">
-              <h2 className="">Test</h2>
-              <h4>
-                Take a test to identify how severe your depression level is and
-                our AI model will analyze the depression rate and provide
-                advices.
-              </h4>
-              <Link href="/test/depression" passHref>
-                <div className="p-4 transition-all duration-200 border-2 border-blue-600 rounded-md cursor-pointer hover:bg-blue-600 hover:text-white">
-                  <h4 className="font-bold">Depression Test</h4>
-                  <h5 className="">
-                    Take a test with 10 questions regarding symptoms of
-                    depression.
-                  </h5>
+            <div className="md:min-w-[50vw] xl:min-w-[30vw] 2xl:min-w-[20vw] space-y-6 text-justify">
+              <h2 className="">Express your thoughts</h2>
+              <h4>Tell me about your thoughts today.</h4>
+              <textarea
+                className="w-full p-2 border-2 rounded-md focus:border-blue-600 focus:outline-none"
+                onChange={nlp}
+                name="input_1"
+                // id=""
+                cols={30}
+                rows={5}
+                disabled={!tokenizer}
+              ></textarea>
+              {!tokenizer && (
+                <div className="mt-3 text-xs text-gray-600">
+                  loading model ...
                 </div>
-              </Link>
-              <Link href="/test/personality" passHref>
-                <div className="p-4 transition-all duration-200 border-2 border-blue-600 rounded-md cursor-pointer hover:bg-blue-600 hover:text-white">
-                  <h4 className="font-bold">Personality Test</h4>
-                  <h5 className="">
-                    Take a test with 30 questions regarding your personal
-                    lifestyle and living behaviour.
-                  </h5>
+              )}
+              {emotion && emotionTime && (
+                <div className="flex items-end gap-3 mt-3">
+                  {emotion?.map((e: string, i: number) => (
+                    <span
+                      key={i}
+                      style={{
+                        // @ts-ignore
+                        opacity: e[1] / 100 + 0.5,
+                      }}
+                    >
+                      {e[0]} ({e[1]})
+                    </span>
+                  ))}
+                  <span className="text-sm text-gray-300">{`- ${emotionTime} ms inference time`}</span>
                 </div>
-              </Link>
+              )}
+              {depression && depressionTime && (
+                <div className="flex items-end gap-3 mt-3">
+                  {depression?.map((d: string, i: number) => (
+                    <span
+                      key={i}
+                      style={{
+                        // @ts-ignore
+                        opacity: d[1] / 100 + 0.5,
+                      }}
+                    >
+                      {d[0]} ({d[1]})
+                    </span>
+                  ))}
+                  <span className="text-sm text-gray-300">{`- ${depressionTime} ms inference time`}</span>
+                </div>
+              )}
               {/* <div className="grid w-full grid-cols-2 gap-5">
                 <Link href="/test/depression">
                   <a className="box-border relative z-30 inline-flex items-center justify-center w-full px-10 py-4 overflow-hidden font-bold text-white transition-all duration-300 bg-blue-600 rounded-md cursor-pointer active:scale-95 group ring-offset-2 ring-1 ring-blue-300 ring-offset-blue-200 hover:ring-offset-blue-500 ease focus:outline-none">
@@ -105,9 +161,6 @@ const Home: NextPage = () => {
                   </a>
                 </Link>
               </div> */}
-              <h5 className="text-xs text-gray-600">
-                * By continuing, you're agreeing to the terms and conditions.
-              </h5>
             </div>
           </div>
         </div>

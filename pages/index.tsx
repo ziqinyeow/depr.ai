@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import * as THREE from "three";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshWobbleMaterial, OrbitControls } from "@react-three/drei";
 import Image from "next/image";
@@ -140,6 +140,11 @@ const Home: NextPage = () => {
                   </a>
                 </Link>
               </div>
+              {!tokenizer && (
+                <div className="mt-3 text-xs text-gray-600">
+                  loading model ...
+                </div>
+              )}
               {emotion && emotionTime && (
                 <div className="flex items-end gap-3 mt-3">
                   {emotion?.map((e: string, i: number) => (
@@ -195,56 +200,62 @@ const Home: NextPage = () => {
           </h1>
         </div>
         <div className="grid w-full gap-5 md:grid-cols-3">
-          <div className="box-border relative z-30 inline-flex items-center justify-center w-auto px-10 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-white rounded-md cursor-pointer hover:bg-blue-600 group active:scale-95 ring-offset-2 ring-1 ring-blue-600 ring-offset-blue-200 hover:ring-offset-blue-700 ease focus:outline-none">
-            <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
-            <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
-            <div className="relative z-20 flex flex-col items-center">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-10 h-10 text-black group-hover:text-white"
-              >
-                <path
-                  d="M7.75432 1.81954C7.59742 1.72682 7.4025 1.72682 7.24559 1.81954L1.74559 5.06954C1.59336 5.15949 1.49996 5.32317 1.49996 5.5C1.49996 5.67683 1.59336 5.84051 1.74559 5.93046L7.24559 9.18046C7.4025 9.27318 7.59742 9.27318 7.75432 9.18046L13.2543 5.93046C13.4066 5.84051 13.5 5.67683 13.5 5.5C13.5 5.32317 13.4066 5.15949 13.2543 5.06954L7.75432 1.81954ZM7.49996 8.16923L2.9828 5.5L7.49996 2.83077L12.0171 5.5L7.49996 8.16923ZM2.25432 8.31954C2.01658 8.17906 1.70998 8.2579 1.56949 8.49564C1.42901 8.73337 1.50785 9.03998 1.74559 9.18046L7.24559 12.4305C7.4025 12.5232 7.59742 12.5232 7.75432 12.4305L13.2543 9.18046C13.4921 9.03998 13.5709 8.73337 13.4304 8.49564C13.2899 8.2579 12.9833 8.17906 12.7456 8.31954L7.49996 11.4192L2.25432 8.31954Z"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <h2 className="text-blue-600 group-hover:text-white">Quiz</h2>
-              <h4 className="mt-4 text-base text-center text-gray-500 group-hover:text-white">
-                Analyze your quiz result
-              </h4>
+          <Link href="/test" passHref>
+            <div className="box-border relative z-30 inline-flex items-center justify-center w-auto px-10 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-white rounded-md cursor-pointer hover:bg-blue-600 group active:scale-95 ring-offset-2 ring-1 ring-blue-600 ring-offset-blue-200 hover:ring-offset-blue-700 ease focus:outline-none">
+              <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+              <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+              <div className="relative z-20 flex flex-col items-center">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-10 h-10 text-black group-hover:text-white"
+                >
+                  <path
+                    d="M7.75432 1.81954C7.59742 1.72682 7.4025 1.72682 7.24559 1.81954L1.74559 5.06954C1.59336 5.15949 1.49996 5.32317 1.49996 5.5C1.49996 5.67683 1.59336 5.84051 1.74559 5.93046L7.24559 9.18046C7.4025 9.27318 7.59742 9.27318 7.75432 9.18046L13.2543 5.93046C13.4066 5.84051 13.5 5.67683 13.5 5.5C13.5 5.32317 13.4066 5.15949 13.2543 5.06954L7.75432 1.81954ZM7.49996 8.16923L2.9828 5.5L7.49996 2.83077L12.0171 5.5L7.49996 8.16923ZM2.25432 8.31954C2.01658 8.17906 1.70998 8.2579 1.56949 8.49564C1.42901 8.73337 1.50785 9.03998 1.74559 9.18046L7.24559 12.4305C7.4025 12.5232 7.59742 12.5232 7.75432 12.4305L13.2543 9.18046C13.4921 9.03998 13.5709 8.73337 13.4304 8.49564C13.2899 8.2579 12.9833 8.17906 12.7456 8.31954L7.49996 11.4192L2.25432 8.31954Z"
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <h2 className="text-blue-600 group-hover:text-white">Quiz</h2>
+                <h4 className="mt-4 text-base text-center text-gray-500 group-hover:text-white">
+                  Analyze your quiz result
+                </h4>
+              </div>
             </div>
-          </div>
-          <div className="box-border relative z-30 inline-flex items-center justify-center w-auto px-10 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-white rounded-md cursor-pointer hover:bg-blue-600 group active:scale-95 ring-offset-2 ring-1 ring-blue-600 ring-offset-blue-200 hover:ring-offset-blue-700 ease focus:outline-none">
-            <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
-            <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
-            <div className="relative z-20 flex flex-col items-center">
-              <svg
-                width="15"
-                height="15"
-                viewBox="0 0 15 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-10 h-10 text-black group-hover:text-white"
-              >
-                <path
-                  d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM4 7.5C4 7.22386 4.22386 7 4.5 7H10.5C10.7761 7 11 7.22386 11 7.5C11 7.77614 10.7761 8 10.5 8H4.5C4.22386 8 4 7.77614 4 7.5ZM3 10.5C3 10.2239 3.22386 10 3.5 10H11.5C11.7761 10 12 10.2239 12 10.5C12 10.7761 11.7761 11 11.5 11H3.5C3.22386 11 3 10.7761 3 10.5Z"
-                  fill="currentColor"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <h2 className="text-blue-600 group-hover:text-white">Language</h2>
-              <h4 className="mt-4 text-base text-center text-gray-500 group-hover:text-white">
-                Analyze your text thought
-              </h4>
+          </Link>
+          <Link href="/thoughts" passHref>
+            <div className="box-border relative z-30 inline-flex items-center justify-center w-auto px-10 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-white rounded-md cursor-pointer hover:bg-blue-600 group active:scale-95 ring-offset-2 ring-1 ring-blue-600 ring-offset-blue-200 hover:ring-offset-blue-700 ease focus:outline-none">
+              <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+              <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+              <div className="relative z-20 flex flex-col items-center">
+                <svg
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-10 h-10 text-black group-hover:text-white"
+                >
+                  <path
+                    d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM4 7.5C4 7.22386 4.22386 7 4.5 7H10.5C10.7761 7 11 7.22386 11 7.5C11 7.77614 10.7761 8 10.5 8H4.5C4.22386 8 4 7.77614 4 7.5ZM3 10.5C3 10.2239 3.22386 10 3.5 10H11.5C11.7761 10 12 10.2239 12 10.5C12 10.7761 11.7761 11 11.5 11H3.5C3.22386 11 3 10.7761 3 10.5Z"
+                    fill="currentColor"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <h2 className="text-blue-600 group-hover:text-white">
+                  Language
+                </h2>
+                <h4 className="mt-4 text-base text-center text-gray-500 group-hover:text-white">
+                  Analyze your text thought
+                </h4>
+              </div>
             </div>
-          </div>
+          </Link>
           <div className="relative">
             <div className="absolute px-3 py-1 text-sm font-bold text-blue-600 border border-blue-600 rounded-md right-2 top-2 bg-gray-50">
               Coming soon
