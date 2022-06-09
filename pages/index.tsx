@@ -47,8 +47,9 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    const s = window.localStorage.getItem("s");
-    setGlobalScore(Number(s));
+    const ds = window.localStorage.getItem("ds");
+    const ps = window.localStorage.getItem("ps");
+    setGlobalScore(Number(ds) + Number(ps));
     download();
   }, []);
 
