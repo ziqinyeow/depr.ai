@@ -273,8 +273,8 @@ const Home: NextPage = ({
                             window.localStorage.setItem("ps", String(ave));
                           }
                         } else {
-                          // setCounter(counter + 1);
-                          // window.sessionStorage.setItem("pt", String(counter));
+                          setCounter(counter + 1);
+                          window.sessionStorage.setItem("pt", String(counter));
                         }
                       }
                     }}
