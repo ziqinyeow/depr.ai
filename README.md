@@ -1,23 +1,29 @@
-# Next.js + Tailwind CSS Example
+# Depr.ai - [Web App](https://deprai.vercel.app)
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+Depression web application with 4 deep learning models integrated that deploy on the edge.
 
-## Deploy your own
+## See How We Train the Model - [GitHub](https://github.com/ziqinyeow/Depression-ML-Problem)
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+## Features
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+1. Depression Test and Personality Test
+2. Emotion and Depression Detection based on text inputted
+3. Depression Advices and Recommendations Generation
 
-## How to use
+## Technology
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+### Web App
 
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-# or
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
+1. Next.js - Full stack React framework
+2. Tailwind - Style
+3. Three.js - JS 3D library
+4. Framer/Spring - Animations
+5. TensorFlow.js/ONNX - Model Predict
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+### Machine Learning
+
+1. TensorFlow - Exporting production model
+2. PyTorch - Research modelling params
+3. Scikit Learn - Utility modelling package
+4. HuggingFace - Transformer
+5. ONNX - Model Export
