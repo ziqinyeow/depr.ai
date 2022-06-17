@@ -36,51 +36,50 @@ const data = [
     answer: ["City", "Town", "Village"],
   },
   {
-    question:
-      "It depicts whether the participant lives with his family or not?",
+    question: "Are you living with your family?",
     answer: ["With Family", "Without Family"],
   },
   {
-    question: "Are you satisfied with his living environment or not?",
+    question: "Are you satisfied with your living environment or not?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Are you satisfied with his current position/ academic achievements or not?",
+      "Are you satisfied with your current position/ academic achievements or not?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Do you have any financial stress",
+    question: "Are you facing any financial stress",
     answer: ["No", "Yes"],
   },
   {
-    question: "Do you have any debt or not?",
+    question: "Are you in debt?",
     answer: ["No", "Yes"],
   },
   {
-    question: "What is your frequency of taking physical exercises",
+    question: "What is your frequency of doing physical exercises?",
     answer: ["Never", "Regularly", "Sometimes"],
   },
-  { question: "Do you smoke or not?", answer: ["No", "Yes"] },
+  { question: "Do you smoke?", answer: ["No", "Yes"] },
   {
-    question: "Do you drink alcohol or not?",
+    question: "Do you drink alcohol?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Do you suffer from any serious illness or not?",
+    question: "Are you suffering from any serious illness or not?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Do you take any prescribed medication or not?",
+    question: "Are you on any prescribed medication?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Are you suffering from eating disorders like overeating/ loss of appetite or not?",
+      "Are you suffering from eating disorders like overeating/ loss of appetite?",
     answer: ["No", "Yes"],
   },
   {
-    question: "What is your average hours of sleeps at night?",
+    question: "What is your average hours of sleep at night?",
     answer: [
       "5 hours",
       "6 hours",
@@ -91,30 +90,30 @@ const data = [
     ],
   },
   {
-    question: "Do you suffer from insomnia?",
+    question: "Are you suffering from insomnia?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "What is the average hours you spend in social network (in a day)?",
+      "What is your average hours of time spent on social media (in a day)?",
     answer: ["2-4 hours a day", "5-7 hours a day", "8-10 hours a day"],
   },
   {
-    question: "Current work or study pressure?",
+    question: "What is your current work or study pressure?",
     answer: ["Mild", "Moderate", "No Pressure", "Severe"],
   },
   {
-    question: "Whether or not you recently feel anxiety for something or not?",
+    question: "Have you recently feel anxiety for something?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether or not you recently feel that he/she has been deprived of something that he/she deserves?",
+      "Have you recently feel that you are deprived of something that you deserve?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether or not you recently feel abused (physically, sexually, emotionally) or not?",
+      "Have you recently feel abused (physically, sexually, emotionally) or not?",
     answer: ["No", "Yes"],
   },
   {
@@ -122,24 +121,24 @@ const data = [
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether or not you faced any life-threatening event recently?",
+    question: "Have you faced any life-threatening event recently?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether you have any suicidal thought recently or not?",
+    question: "Fo you have any suicidal thought recently?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether you suffers from inferiority complex or not recently?",
+    question: "Have you recently suffers from inferiority complex?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether or not you engaged others in any kind of conflicts with friends or family recently?",
+      "Have you recently engaged in any kind of conflicts with friends or family?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether or not you lost someone close to you recently?",
+    question: "Have you recenly lost someone close?",
     answer: ["No", "Yes"],
   },
 ];

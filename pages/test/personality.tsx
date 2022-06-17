@@ -221,8 +221,12 @@ const Home: NextPage = ({
                   </button>
                   <button
                     onClick={() => {
-                      // @ts-ignore
-                      if (response[counter - 1] !== -1) {
+                      if (
+                        // @ts-ignore
+                        response[counter - 1] &&
+                        // @ts-ignore
+                        response[counter - 1] !== -1
+                      ) {
                         window.sessionStorage.setItem(
                           "ptr",
                           JSON.stringify(response)
@@ -269,8 +273,8 @@ const Home: NextPage = ({
                             window.localStorage.setItem("ps", String(ave));
                           }
                         } else {
-                          setCounter(counter + 1);
-                          window.sessionStorage.setItem("pt", String(counter));
+                          // setCounter(counter + 1);
+                          // window.sessionStorage.setItem("pt", String(counter));
                         }
                       }
                     }}

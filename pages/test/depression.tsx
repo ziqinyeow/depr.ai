@@ -203,8 +203,12 @@ const Home: NextPage = ({
                   </button>
                   <button
                     onClick={() => {
-                      // @ts-ignore
-                      if (response[counter - 1] !== -1) {
+                      if (
+                        // @ts-ignore
+                        response[counter - 1] &&
+                        // @ts-ignore
+                        response[counter - 1] !== -1
+                      ) {
                         window.sessionStorage.setItem(
                           "dtr",
                           JSON.stringify(response)
@@ -254,6 +258,7 @@ const Home: NextPage = ({
                           setCounter(counter + 1);
                           window.sessionStorage.setItem("dt", String(counter));
                         }
+                      } else {
                       }
                     }}
                     className="box-border relative z-30 inline-flex items-center justify-center w-full px-10 py-4 overflow-hidden font-bold text-white transition-all duration-300 bg-blue-600 rounded-md cursor-pointer active:scale-95 group ring-offset-2 ring-1 ring-blue-300 ring-offset-blue-200 hover:ring-offset-blue-500 ease focus:outline-none"
