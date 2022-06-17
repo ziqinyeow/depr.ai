@@ -41,48 +41,46 @@ const data = [
     answer: ["With Family", "Without Family"],
   },
   {
-    question:
-      "Whether the participant is satisfied with his living environment or not?",
+    question: "Are you satisfied with his living environment or not?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether the participant is satisfied with his current position/ academic achievements or not?",
+      "Are you satisfied with his current position/ academic achievements or not?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether or not the participant has any financial stress",
+    question: "Do you have any financial stress",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether the participant has any debt or not?",
+    question: "Do you have any debt or not?",
     answer: ["No", "Yes"],
   },
   {
-    question: "The frequency of taking physical exercises of the participant.",
+    question: "What is your frequency of taking physical exercises",
     answer: ["Never", "Regularly", "Sometimes"],
   },
-  { question: "Whether the participant smokes or not?", answer: ["No", "Yes"] },
+  { question: "Do you smoke or not?", answer: ["No", "Yes"] },
   {
-    question: "Whether the participant drinks alcohol or not?",
+    question: "Do you drink alcohol or not?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Do you suffer from any serious illness or not?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Do you take any prescribed medication or not?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether the participant is suffering from any serious illness or not?",
+      "Are you suffering from eating disorders like overeating/ loss of appetite or not?",
     answer: ["No", "Yes"],
   },
   {
-    question: "Whether the participant takes any prescribed medication or not?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question:
-      "Whether the participant is suffering from eating disorders like overeating/ loss of appetite or not?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question: "Average hours that the participant sleeps at night?",
+    question: "What is your average hours of sleeps at night?",
     answer: [
       "5 hours",
       "6 hours",
@@ -93,61 +91,55 @@ const data = [
     ],
   },
   {
-    question: "Whether or not the participant suffers from insomnia?",
+    question: "Do you suffer from insomnia?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Average hours that the participant spends in social network (in a day)?",
+      "What is the average hours you spend in social network (in a day)?",
     answer: ["2-4 hours a day", "5-7 hours a day", "8-10 hours a day"],
   },
   {
-    question: "Current work or study pressure of the participant?",
+    question: "Current work or study pressure?",
     answer: ["Mild", "Moderate", "No Pressure", "Severe"],
   },
   {
-    question:
-      "Whether the participant recently feels anxiety for something or not?",
+    question: "Whether or not you recently feel anxiety for something or not?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether or not the participant has recently felt that he/she has been deprived of something that he/she deserves?",
+      "Whether or not you recently feel that he/she has been deprived of something that he/she deserves?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether the participant has recently felt abused (physically, sexually, emotionally) or not?",
+      "Whether or not you recently feel abused (physically, sexually, emotionally) or not?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Whether or not you felt cheated by someone recently?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Whether or not you faced any life-threatening event recently?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Whether you have any suicidal thought recently or not?",
+    answer: ["No", "Yes"],
+  },
+  {
+    question: "Whether you suffers from inferiority complex or not recently?",
     answer: ["No", "Yes"],
   },
   {
     question:
-      "Whether or not the participant has felt cheated by someone recently?",
+      "Whether or not you engaged others in any kind of conflicts with friends or family recently?",
     answer: ["No", "Yes"],
   },
   {
-    question:
-      "Whether or not the participant has faced any life-threatening event recently?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question:
-      "Whether the participant has any suicidal thought recently or not?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question:
-      "Whether the participant recently suffers from inferiority complex or not?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question:
-      "Whether or not the participant has recently engaged himself in any kind of conflicts with his friends or family?",
-    answer: ["No", "Yes"],
-  },
-  {
-    question:
-      "Whether or not the participant has recently lost someone close to him?",
+    question: "Whether or not you lost someone close to you recently?",
     answer: ["No", "Yes"],
   },
 ];
