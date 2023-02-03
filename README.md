@@ -2,7 +2,7 @@
 
 Depression web application with 4 deep learning models integrated that deploy on the edge.
 
-## See How We Train the Model - [GitHub](https://github.com/ziqinyeow/Depression-ML-Problem)
+## See How To Train the Model - [GitHub](https://github.com/ziqinyeow/Depression-ML-Problem)
 
 ## Features
 
