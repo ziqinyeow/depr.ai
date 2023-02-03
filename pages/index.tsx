@@ -365,8 +365,8 @@ const Home: NextPage = () => {
 
       <footer className="flex items-center justify-center w-full h-24 mt-20 border-t">
         <div className="flex items-center justify-center gap-2">
-          Powered by Team{" "}
-          <h4 className="font-bold text-blue-600">GPT3 with StyleGAN3</h4>
+          Powered by{" "}
+          <h4 className="font-bold text-blue-600"><a href='https://github.com/ziqinyeow/depr.ai'>@ziqinyeow</a></h4>
         </div>
       </footer>
     </div>
